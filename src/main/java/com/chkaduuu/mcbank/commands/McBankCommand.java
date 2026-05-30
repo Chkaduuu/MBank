@@ -64,7 +64,7 @@ public class McBankCommand implements CommandExecutor, TabCompleter
                 case "loan": {
                     if (player == null) { this.notPlayer(sender); return true; }
                     if (!this.hasPermission((CommandSender) player, "mcbank.use")) { this.noPermission((CommandSender) player); return true; }
-                    this.plugin.getGuiManager().openMainMenu(player);
+                    this.handleLoan(player);
                     break;
                 }
                 case "transfer": {
@@ -354,10 +354,69 @@ public class McBankCommand implements CommandExecutor, TabCompleter
     }
 
     private void handleTransfer(final Player player) {
-        if (!this.plugin.getAccountManager().hasAccount(player.getUniqueId())) {
-            this.plugin.getLanguageManager().send(player, "no_account"); return;
-        }
-        this.plugin.getGuiManager().openMainMenu(player);
+        final UUID senderUUID = player.getUniqueId();
+        final LanguageManager lm = this.plugin.getLanguageManager();
+        final AccountManager am = this.plugin.getAccountManager();
+        if (!am.hasAccount(senderUUID)) { lm.send(player, "no_account"); return; }
+        final double minTransfer = this.plugin.getConfigManager().getMinTransfer();
+        lm.send(player, "transfer_prompt_player");
+        final ChatInputListener chatInput = this.plugin.getChatInput();
+        chatInput.awaitInput(player, ChatInputListener.InputType.TRANSFER_PLAYER, targetName -> {
+            final Player target = this.plugin.getServer().getPlayer(targetName);
+            if (target == null) { lm.send(player, "transfer_player_not_found", "%player%", targetName); return; }
+            if (target.getUniqueId().equals(senderUUID)) { lm.send(player, "transfer_self"); return; }
+            if (!am.hasAccount(target.getUniqueId())) { lm.send(player, "transfer_no_account", "%player%", target.getName()); return; }
+            lm.send(player, "transfer_prompt_amount");
+            chatInput.awaitInput(player, ChatInputListener.InputType.TRANSFER_AMOUNT, amountStr -> {
+                double amount;
+                try { amount = Double.parseDouble(amountStr.trim().replace(",", ".")); }
+                catch (final NumberFormatException e) { lm.send(player, "invalid_amount"); return; }
+                if (amount <= 0.0) { lm.send(player, "invalid_amount"); return; }
+                if (amount < minTransfer) { lm.send(player, "transfer_min_amount", "%min%", String.format("%.2f", minTransfer)); return; }
+                final BankAccount senderAcc = am.getPrimaryAccount(senderUUID);
+                if (senderAcc == null || senderAcc.getBalance() < amount) {
+                    lm.send(player, "transfer_insufficient", "%balance%", String.format("%.2f", senderAcc != null ? senderAcc.getBalance() : 0.0)); return;
+                }
+                final BankAccount receiverAcc = am.getPrimaryAccount(target.getUniqueId());
+                if (receiverAcc == null) { lm.send(player, "transfer_no_account", "%player%", target.getName()); return; }
+                senderAcc.withdraw(amount);
+                receiverAcc.deposit(amount);
+                am.recordTransaction(senderUUID, "TRANSFER_OUT", amount, target.getName());
+                am.recordTransaction(target.getUniqueId(), "TRANSFER_IN", amount, player.getName());
+                am.saveData();
+                lm.send(player, "transfer_success_sender", "%amount%", String.format("%.2f", amount), "%player%", target.getName());
+                lm.send(target, "transfer_success_receiver", "%amount%", String.format("%.2f", amount), "%player%", player.getName());
+            });
+        });
+    }
+
+    private void handleLoan(final Player player) {
+        final UUID uuid = player.getUniqueId();
+        final LanguageManager lm = this.plugin.getLanguageManager();
+        final AccountManager am = this.plugin.getAccountManager();
+        if (!this.plugin.getConfigManager().isLoanEnabled()) { lm.send(player, "loan_not_enabled"); return; }
+        if (!am.hasAccount(uuid)) { lm.send(player, "no_account"); return; }
+        final PlayerData pd = am.getPlayerData(uuid);
+        if (pd == null || pd.getLevel() <= 0) { lm.send(player, "loan_no_level"); return; }
+        final BankAccount acc = am.getPrimaryAccount(uuid);
+        if (acc == null) { lm.send(player, "no_account"); return; }
+        if (acc.getLoan() > 0.0) { lm.send(player, "loan_already_has", "%loan%", String.format("%.2f", acc.getLoan())); return; }
+        final double loanLimit = am.getLoanLimit(uuid);
+        final double interestPct = this.plugin.getConfigManager().getInterestPercent();
+        lm.send(player, "loan_prompt", "%limit%", String.format("%.2f", loanLimit), "%percent%", String.valueOf(interestPct));
+        this.plugin.getChatInput().awaitInput(player, ChatInputListener.InputType.LOAN_TAKE, input -> {
+            double amount;
+            try { amount = Double.parseDouble(input.trim().replace(",", ".")); }
+            catch (final NumberFormatException e) { lm.send(player, "invalid_amount"); return; }
+            if (amount <= 0.0) { lm.send(player, "invalid_amount"); return; }
+            if (amount > loanLimit) { lm.send(player, "loan_exceeds_limit", "%limit%", String.format("%.2f", loanLimit)); return; }
+            final double withInterest = amount * (1.0 + interestPct / 100.0);
+            acc.setLoan(withInterest);
+            acc.deposit(amount);
+            am.recordTransaction(uuid, "LOAN", amount, "");
+            am.saveData();
+            lm.send(player, "loan_success", "%amount%", String.format("%.2f", amount), "%total%", String.format("%.2f", withInterest));
+        });
     }
 
     private void handleHelp(final CommandSender sender) {
