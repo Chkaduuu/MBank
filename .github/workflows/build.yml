@@ -18,6 +18,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Build with Maven
+        working-directory: ./MBank
         run: mvn clean package -B
 
       - name: Upload JAR

@@ -1,0 +1,20 @@
+# =============================================
+# McBank Data Storage
+# DO NOT EDIT MANUALLY unless you know what you're doing
+# This file stores player bank account information
+# =============================================
+
+# Format:
+# players:
+#   <player-uuid>:
+#     name: <player-name>
+#     level: <loan-level>
+#     pin: <4-digit-pin-or-null>
+#     accounts:
+#       <account-number>:
+#         balance: <balance>
+#         loan: <loan-amount>
+#         active: <true/false>
+#         created: <timestamp>
+
+players: {}

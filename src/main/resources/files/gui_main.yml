@@ -1,0 +1,126 @@
+# =============================================
+# McBank Main GUI Configuration
+# Version: 2.2
+# Slot numbers: 0-53 (for 6-row inventory)
+# =============================================
+#
+# CUSTOMIZATION GUIDE:
+#   slot:  - inventory slot (0-53 for 6 rows)
+#   item:  - material name (e.g. DIAMOND, GOLD_INGOT, PAPER)
+#            or basehead-<base64> for custom skull textures
+#            or basehead-%player_name% for player head
+#   name:  - display name (supports & color codes and &#RRGGBB hex colors)
+#   lore:  - list of lore lines (supports & color codes and &#RRGGBB hex colors)
+#   glow:  - true/false (adds enchant glow effect)
+#
+# HEX COLOR FORMAT:
+#   Use &#RRGGBB anywhere in name or lore
+#   Example: "&#FF5733Custom Orange Text"
+#   Example: "&lBold &#00FF00Green"
+#
+# BUTTON ORDER: Change the slot number to reorder buttons.
+# Slots layout (6 rows x 9 columns):
+#  0  1  2  3  4  5  6  7  8
+#  9 10 11 12 13 14 15 16 17
+# 18 19 20 21 22 23 24 25 26
+# 27 28 29 30 31 32 33 34 35
+# 36 37 38 39 40 41 42 43 44
+# 45 46 47 48 49 50 51 52 53
+#
+# =============================================
+
+main_menu:
+  title: "&0&lᴘᴇʀѕᴏɴᴀʟ ʙᴀɴᴋ"
+  rows: 6
+
+  account_info:
+    slot: 12
+    item: basehead-%player_name%
+    name: "&6&lᴀᴄᴄᴏᴜɴᴛ ɪɴꜰᴏ"
+    lore:
+      - "&7ʙᴀɴᴋ ɴᴜᴍʙᴇʀ: &e%mcbank_bank_number%"
+      - "&7ʙᴀʟᴀɴᴄᴇ: &e%mcbank_bank_balance%"
+      - "&7ʙᴀʟᴀɴᴄᴇ ʟɪᴍɪᴛ: &e%mcbank_bank_limit%"
+      - "&7ʙᴀɴᴋ ʟᴇᴠᴇʟ: &e%mcbank_bank_level%"
+      - ""
+      - "&aᴄʟɪᴄᴋ ᴛᴏ ʀᴇꜰʀᴇѕʜ"
+      - ""
+    glow: false
+
+  deposit:
+    slot: 20
+    item: basehead-eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWZmMzE0MzFkNjQ1ODdmZjZlZjk4YzA2NzU4MTA2ODFmOGMxM2JmOTZmNTFkOWNiMDdlZDc4NTJiMmZmZDEifX19
+    name: "&a&lᴅᴇᴘᴏѕɪᴛ"
+    lore:
+      - "&7ᴄʟɪᴄᴋ ᴛᴏ ᴅᴇᴘᴏѕɪᴛ ᴍᴏɴᴇʏ"
+      - "&7ɪɴᴛᴏ ʏᴏᴜʀ ʙᴀɴᴋ ᴀᴄᴄᴏᴜɴᴛ"
+      - ""
+      - "&eᴍɪɴɪᴍᴜᴍ: &a%min_deposit%"
+      - "&eʟɪᴍɪᴛ: &a%mcbank_bank_limit%"
+      - ""
+    glow: false
+
+  cashout:
+    slot: 31
+    item: basehead-eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjZlYTk5YzhjNjIxMzZmNDlkOWMyOTQ3YzQ0Y2Y0YjFmYzkzNzI0OWRjMWVlMjAxZjUxMTA5NjA4NGIyMTQwNiJ9fX0=
+    name: "&b&lᴄᴀѕʜᴏᴜᴛ"
+    lore:
+      - "&7ᴄʟɪᴄᴋ ᴛᴏ ᴄᴀѕʜᴏᴜᴛ ᴍᴏɴᴇʏ"
+      - "&7ᴀѕ ᴀ ᴘᴀᴘᴇʀ ʙᴀɴᴋɴᴏᴛᴇ"
+      - ""
+      - "&7ʀɪɢʜᴛ-ᴄʟɪᴄᴋ ᴛʜᴇ ᴘᴀᴘᴇʀ ɪɴ"
+      - "&7ʏᴏᴜʀ ɪɴᴠᴇɴᴛᴏʀʏ ᴛᴏ ᴅᴇᴘᴏѕɪᴛ ʙᴀᴄᴋ"
+      - ""
+    glow: false
+
+  transfer:
+    slot: 24
+    item: basehead-eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjcyNmQyODhhNzRlOGFjOTI0YzU4YzkzZjViMzVjYWNkNjk0NmE2Y2NmZGJkYTg1ZmU4YWNiOWUzZWVjZWJkYiJ9fX0=
+    name: "&bᴛʀᴀɴѕꜰᴇʀ ᴛᴏ ｐʟᴀʏᴇʀ"
+    lore:
+      - "&7ᴄʟɪᴄᴋ ᴛᴏ ᴛʀᴀɴѕꜰᴇʀ ᴍᴏɴᴇʏ"
+      - "&7ᴛᴏ ᴀɴᴏᴛʜᴇʀ ᴘʟᴀʏᴇʀ"
+      - ""
+      - "&eᴍɪɴɪᴍᴜᴍ: &b%min_transfer%"
+      - ""
+    glow: false
+
+  loan:
+    slot: 22
+    item: basehead-eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjdkNmJlMWRjYTUzNTJhNTY5M2UyOWVhMzVkODA2YjJhMjdjNGE5N2I2NGVlYmJmNjMyYzk5OGQ1OTQ4ZjFjNCJ9fX0=
+    name: "&6&lʟᴏᴀɴ &7&l(ᴄʀᴇᴅɪᴛ)"
+    lore:
+      - "&7ᴄʟɪᴄᴋ ᴛᴏ ᴍᴀɴᴀɢᴇ ʏᴏᴜʀ ʟᴏᴀɴ"
+      - ""
+      - "&7ʟᴏᴀɴ: &e%mcbank_bank_loan%"
+      - "&7ʟɪᴍɪᴛ: &e%mcbank_bank_loan_limit%"
+      - "&7ɪɴᴛᴇʀᴇѕᴛ: &e%mcbank_loan_percent%%"
+      - ""
+      - "&aʟᴇꜰᴛ-ᴄʟɪᴄᴋ &7- ᴛᴀᴋᴇ ᴀ ʟᴏᴀɴ"
+      - "&cʀɪɢʜᴛ-ᴄʟɪᴄᴋ &7- ʀᴇᴘᴀʏ ʟᴏᴀɴ"
+    glow: false
+
+  upgrade:
+    slot: 14
+    item: NETHER_STAR
+    name: "&6ᴜᴘɢʀᴀᴅᴇ ʙᴀɴᴋ ʟᴇᴠᴇʟ"
+    lore:
+      - "&7ᴄᴜʀʀᴇɴᴛ ʟᴇᴠᴇʟ: &e%mcbank_bank_level%"
+      - "&7ɴᴇхᴛ ʟᴇᴠᴇʟ ᴘʀɪᴄᴇ: &e%bank_upgrade_price%"
+      - ""
+      - "&7ᴜᴘɢʀᴀᴅɪɴɢ ɪɴᴄʀᴇᴀѕᴇѕ ʏᴏᴜʀ"
+      - "&7ʙᴀɴᴋ ʟɪᴍɪᴛ ᴀɴᴅ ɪɴᴄᴏᴍᴇ ʀᴀᴛᴇ"
+      - ""
+      - "&aᴄʟɪᴄᴋ ᴛᴏ ᴜᴘɢʀᴀᴅᴇ!"
+    glow: true
+
+  filler:
+    enabled: true
+    item: GRAY_STAINED_GLASS_PANE
+    name: " "
+
+  border:
+    enabled: true
+    item: BLACK_STAINED_GLASS_PANE
+    name: " "
+    slots: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53]
