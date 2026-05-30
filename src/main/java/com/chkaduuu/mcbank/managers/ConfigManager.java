@@ -111,6 +111,14 @@ public class ConfigManager
         return this.config.getStringList("account_formats");
     }
     
+    public double getLoanPenaltyPercent() {
+        return this.config.getDouble("loan.penalty_percent", 10.0);
+    }
+
+    public double getAtmDailyLimit() {
+        return this.config.getDouble("atm.daily_limit", 100000.0);
+    }
+
     public boolean isDebug() {
         return this.config.getBoolean("debug", false);
     }

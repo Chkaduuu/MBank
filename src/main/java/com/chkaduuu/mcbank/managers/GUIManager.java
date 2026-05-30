@@ -220,7 +220,7 @@ public class GUIManager
         }
         final boolean glow = sec.getBoolean("glow", false);
         if (glow) {
-            meta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
+            meta.addEnchant(Enchantment.INFINITY, 1, true);
             meta.addItemFlags(new ItemFlag[] { ItemFlag.HIDE_ENCHANTS });
         }
         meta.addItemFlags(new ItemFlag[] { ItemFlag.HIDE_ATTRIBUTES });
@@ -299,7 +299,7 @@ public class GUIManager
             }
             final boolean glow = sec.getBoolean("glow", false);
             if (glow) {
-                meta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
+                meta.addEnchant(Enchantment.INFINITY, 1, true);
                 meta.addItemFlags(new ItemFlag[] { ItemFlag.HIDE_ENCHANTS });
             }
             meta.addItemFlags(new ItemFlag[] { ItemFlag.HIDE_ATTRIBUTES });
