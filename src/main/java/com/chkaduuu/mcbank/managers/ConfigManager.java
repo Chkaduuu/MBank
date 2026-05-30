@@ -115,8 +115,8 @@ public class ConfigManager
         return this.config.getDouble("loan.penalty_percent", 10.0);
     }
 
-    public double getAtmDailyLimit() {
-        return this.config.getDouble("atm.daily_limit", 100000.0);
+    public int getAtmDailyLimit() {
+        return this.config.getInt("atm.daily_limit", 100000);
     }
 
     public boolean isDebug() {
